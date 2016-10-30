@@ -12,7 +12,7 @@ bl_info = {
         "description" :
             "Adds a save button to the Text Editor header, and panel",
         "warning" : "",
-        "wiki_url" : "",
+        "wiki_url" : "https://github.com/amerizalde/blender_save_buttons",
         "tracker_url" : "",
         "category" : "Text Editor"}
 
