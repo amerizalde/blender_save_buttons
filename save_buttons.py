@@ -1,4 +1,3 @@
-# https://www.blender.org/api/blender_python_api_current/bpy.ops.paint.html?highlight=bpy%20ops%20paint#module-bpy.ops.paint
 
 import bpy
 from bpy.types import Operator, Header, Panel
@@ -22,6 +21,14 @@ class SaveOperator(Operator):
     bl_idname = "alm.save_text"
     bl_label = "SaveText"
     
+    filepath = bpy.props.StringProperty(subtype="FILE_PATH")
+    filename = bpy.props.StringProperty(subtype="NONE")
+    directory = bpy.props.StringProperty(subtype="DIRECTORY_PATH")
+    
+    @classmethod
+    def poll(cls, context):
+        return context.object is not None
+    
     def execute(self, context):
         text = context.space_data.text
         
@@ -32,10 +39,15 @@ class SaveOperator(Operator):
                 # no unnecessary actions
                 pass
         else:
-            bpy.ops.text.save_as()
+            bpy.ops.text.save_as(filepath=self.filepath)
+            bpy.ops.text.open(filepath=self.filepath)
 
         self.report({'INFO'}, "Done!")        
         return {"FINISHED"}
+    
+    def invoke(self, context, event):
+        context.window_manager.fileselect_add(self)
+        return {'RUNNING_MODAL'}
 
 class SaveHeader(Header):
     bl_space_type = 'TEXT_EDITOR'
@@ -47,6 +59,7 @@ class SaveHeader(Header):
         row = layout.row()
         row.operator("alm.save_text", text="Save", icon='TEXT')
 
+
 class SavePanel(Panel):
     bl_space_type = 'TEXT_EDITOR'
     bl_region_type = 'UI'
@@ -54,6 +67,7 @@ class SavePanel(Panel):
 
     def draw(self, context):
         layout = self.layout
+        
         row = layout.row()
         row.operator("alm.save_text", text="Save", icon='TEXT')
         
