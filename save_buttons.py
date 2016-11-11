@@ -5,7 +5,7 @@ from bpy.types import Operator, Header, Panel
 bl_info = {
         "name" : "Save Buttons",
         "author" : "Andrew Merizalde <andrewmerizalde@hotmail.com>",
-        "version" : (1, 0, 0),
+        "version" : (1, 0, 1),
         "blender" : (2, 7, 8),
         "location" : "Text Editor > Tools > Save, Text Editor > Header",
         "description" :
@@ -23,7 +23,7 @@ class SaveOperator(Operator):
     
     filepath = bpy.props.StringProperty(subtype="FILE_PATH")
     filename = bpy.props.StringProperty(subtype="NONE")
-    directory = bpy.props.StringProperty(subtype="DIRECTORY_PATH")
+    directory = bpy.props.StringProperty(subtype="DIR_PATH")
     
     @classmethod
     def poll(cls, context):
